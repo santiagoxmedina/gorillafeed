@@ -29,16 +29,18 @@ public class FeedFragment extends Fragment {
 
     private FeedViewModel mViewModel;
     private FeedAdapter feedAdapter;
-
+    private FragmentFeedBinding binding;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         FeedDataBaseDAO dataBaseDAO = FeedDataBaseHelper.getInstance(requireActivity().getApplication()).getFeedDataBaseDAO();
         FeedViewModelFactory feedViewModelFactory = new FeedViewModelFactory(requireActivity().getApplication(),dataBaseDAO);
         mViewModel = new ViewModelProvider(this,feedViewModelFactory).get(FeedViewModel.class);
-        FragmentFeedBinding binding = DataBindingUtil.inflate(inflater,R.layout.fragment_feed, container, false);
-        binding.setViewModel(mViewModel);
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_feed, container, false);
         feedAdapter = new FeedAdapter(new FeedUIDiff());
+        binding.feedsList.setAdapter(feedAdapter);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
+        binding.setViewModel(mViewModel);
         initSubscribers();
         return binding.getRoot();
     }
@@ -47,7 +49,6 @@ public class FeedFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mViewModel.init();
-
     }
 
     private void initSubscribers() {

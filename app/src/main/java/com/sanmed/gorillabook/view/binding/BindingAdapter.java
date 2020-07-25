@@ -9,7 +9,7 @@ import java.io.File;
 public class BindingAdapter {
 
     @androidx.databinding.BindingAdapter("setImage")
-    public void setImage(ImageView imageView,String imageUrl){
+    public static void setImage(ImageView imageView,String imageUrl){
         File imgFile;
         imgFile = new  File(imageUrl);
         if(imgFile.exists()){

@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.sanmed.gorillabook.model.GorillaFeedRepository;
 import com.sanmed.gorillabook.model.database.FeedDataBaseDAO;
+import com.sanmed.gorillabook.utils.DateUtils;
 import com.sanmed.gorillabook.view.common.FeedUI;
 
 import java.text.SimpleDateFormat;
@@ -39,8 +40,7 @@ public class FeedViewModel extends AndroidViewModel {
 
     private String getCurrentDate() {
         Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("DD ,MMM dd", Locale.getDefault());
-        return df.format(c);
+        return DateUtils.stringDate(c,DateUtils.patternDate);
     }
 
     public LiveData<List<FeedUI>> getFeeds() {

@@ -62,11 +62,11 @@ public class GorillaFeedRepository {
 
     private void saveData(FeedResponse[] feedResponses) {
 
-      mDataBaseDAO.saveFeed(FeedHelper.parseResponses(feedResponses)).subscribeOn(io.reactivex.schedulers.Schedulers.io()).observeOn(io.reactivex.schedulers.Schedulers.io()).subscribe();
+      mDataBaseDAO.saveFeed(FeedHelper.parseResponses(feedResponses)).subscribeOn(io.reactivex.schedulers.Schedulers.io()).observeOn(io.reactivex.schedulers.Schedulers.io()).subscribe(this::onSavedCompleted);
     }
 
     private void onSavedCompleted() {
-        dataLoadedSuccess.setValue(true);
+        dataLoadedSuccess.postValue(true);
     }
 
     public void onCleared() {
@@ -95,6 +95,6 @@ public class GorillaFeedRepository {
     }
 
     private void onFeedChanged(List<Feed> feeds) {
-        feedsUI.setValue(FeedHelper.parseFeeds(feeds));
+        feedsUI.postValue(FeedHelper.parseFeeds(feeds));
     }
 }

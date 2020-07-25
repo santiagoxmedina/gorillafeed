@@ -1,6 +1,7 @@
 package com.sanmed.gorillabook.model.models;
 
 import com.sanmed.gorillabook.model.database.Feed;
+import com.sanmed.gorillabook.utils.DateUtils;
 import com.sanmed.gorillabook.view.common.FeedUI;
 
 import java.util.ArrayList;
@@ -38,6 +39,12 @@ public class FeedHelper {
     }
 
     public static FeedUI parseFeed(Feed feed) {
-        return null;
+        FeedUI feedUI = new FeedUI();
+        feedUI.id = feed.id;
+        feedUI.post = feed.postBody;
+        feedUI.name = feed.firstName+" "+feed.lastName;
+        feedUI.image = "";
+        feedUI.date = DateUtils.stringDate(new java.util.Date(feed.unixTimestamp),DateUtils.pattern2Date) ;
+        return feedUI;
     }
 }

@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sanmed.gorillabook.R;
 import com.sanmed.gorillabook.databinding.ViewItemFeedBinding;
 
+import org.jetbrains.annotations.NotNull;
+
 
 public class FeedAdapter extends ListAdapter<FeedUI, RecyclerView.ViewHolder> {
 
@@ -22,9 +24,15 @@ public class FeedAdapter extends ListAdapter<FeedUI, RecyclerView.ViewHolder> {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return getViewHolder(parent);
+    }
+
+    @NotNull
+    private RecyclerView.ViewHolder getViewHolder(@NonNull ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         ViewItemFeedBinding viewItemFeedBinding = DataBindingUtil.inflate(inflater,R.layout.view_item_feed,parent,false);
-        FeedViewHolder feedViewHolder = new FeedViewHolder(viewItemFeedBinding);
+        FeedViewHolder feedViewHolder = new FeedViewHolder(viewItemFeedBinding.getRoot());
+        feedViewHolder.setViewItemFeedBinding(viewItemFeedBinding);
         return feedViewHolder;
     }
 
