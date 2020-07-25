@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 
 import com.sanmed.gorillabook.model.client.GorillaClient;
 import com.sanmed.gorillabook.model.database.Feed;
@@ -17,9 +16,7 @@ import com.sanmed.gorillabook.view.common.FeedUI;
 
 import java.util.List;
 
-import retrofit2.HttpException;
 import retrofit2.Response;
-import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -50,27 +47,10 @@ public class GorillaFeedRepository {
                 .getFeed()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<FeedResponse[]>>() {
-                    @Override public void onCompleted() {
-                    }
-
-                    @Override public void onError(Throwable e) {
-                        e.printStackTrace();
-                        if(e instanceof HttpException){
-                            HttpException httpException = (HttpException)e;
-                            message.setValue(httpException.message());
-                        }else{
-                            message.setValue(e.getMessage());
-                        }
-                    }
-
-                    @Override public void onNext(Response<FeedResponse[]> response) {
-                        OnResponse(response);
-                    }
-                });
+                .subscribe(this::onResponseFeed);
     }
 
-    private void OnResponse(Response<FeedResponse[]> response) {
+    private void onResponseFeed(Response<FeedResponse[]> response) {
         if(response.isSuccessful()){
             saveData(response.body());
         }else{
@@ -78,8 +58,9 @@ public class GorillaFeedRepository {
         }
     }
 
+
     private void saveData(FeedResponse[] feedResponses) {
-        mDataBaseDAO.saveFeed(FeedHelper.parseResponses(feedResponses)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(this::onSavedCompleted);
+      mDataBaseDAO.saveFeed(FeedHelper.parseResponses(feedResponses)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(this::onSavedCompleted);
     }
 
     private void onSavedCompleted() {

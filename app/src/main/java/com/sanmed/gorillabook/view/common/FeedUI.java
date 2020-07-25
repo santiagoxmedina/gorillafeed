@@ -6,5 +6,5 @@ public class FeedUI {
     public String name;
     public String date;
     public String post;
-    public int image;
+    public String image;
 }

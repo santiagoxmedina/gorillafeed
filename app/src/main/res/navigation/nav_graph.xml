@@ -4,12 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/splashFragment">
-
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.sanmed.gorillabook.view.splash.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_feedFragment"
             app:destination="@id/feedFragment" />
@@ -17,5 +16,6 @@
     <fragment
         android:id="@+id/feedFragment"
         android:name="com.sanmed.gorillabook.view.feed.FeedFragment"
-        android:label="FeedFragment" />
+        android:label="fragment_feed"
+        tools:layout="@layout/fragment_feed" />
 </navigation>
