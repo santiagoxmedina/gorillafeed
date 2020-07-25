@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.sanmed.gorillabook.R;
 import com.sanmed.gorillabook.model.database.FeedDataBase;
 import com.sanmed.gorillabook.model.database.FeedDataBaseDAO;
+import com.sanmed.gorillabook.model.database.FeedDataBaseHelper;
 import com.sanmed.gorillabook.viewmodel.splash.SplashViewModel;
 import com.sanmed.gorillabook.viewmodel.splash.SplashViewModelFactory;
 
@@ -26,7 +27,7 @@ public class SplashFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FeedDataBaseDAO  dataBaseDAO = FeedDataBase.getInstance(requireActivity().getApplication()).getFeedDataBaseDAO();
+        FeedDataBaseDAO  dataBaseDAO = FeedDataBaseHelper.getInstance(requireActivity().getApplication()).getFeedDataBaseDAO();
         SplashViewModelFactory viewModelFactory = new SplashViewModelFactory(requireActivity().getApplication(),dataBaseDAO);
         mViewModel = new ViewModelProvider(this,viewModelFactory).get(SplashViewModel.class);
         initSubscribers();

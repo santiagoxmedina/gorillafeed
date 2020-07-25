@@ -16,6 +16,7 @@ import com.sanmed.gorillabook.R;
 import com.sanmed.gorillabook.databinding.FragmentFeedBinding;
 import com.sanmed.gorillabook.model.database.FeedDataBase;
 import com.sanmed.gorillabook.model.database.FeedDataBaseDAO;
+import com.sanmed.gorillabook.model.database.FeedDataBaseHelper;
 import com.sanmed.gorillabook.view.common.FeedAdapter;
 import com.sanmed.gorillabook.view.common.FeedUI;
 import com.sanmed.gorillabook.view.common.FeedUIDiff;
@@ -32,7 +33,7 @@ public class FeedFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        FeedDataBaseDAO dataBaseDAO = FeedDataBase.getInstance(requireActivity().getApplication()).getFeedDataBaseDAO();
+        FeedDataBaseDAO dataBaseDAO = FeedDataBaseHelper.getInstance(requireActivity().getApplication()).getFeedDataBaseDAO();
         FeedViewModelFactory feedViewModelFactory = new FeedViewModelFactory(requireActivity().getApplication(),dataBaseDAO);
         mViewModel = new ViewModelProvider(this,feedViewModelFactory).get(FeedViewModel.class);
         FragmentFeedBinding binding = DataBindingUtil.inflate(inflater,R.layout.fragment_feed, container, false);

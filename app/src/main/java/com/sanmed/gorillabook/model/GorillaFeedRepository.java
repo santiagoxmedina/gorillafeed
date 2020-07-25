@@ -16,6 +16,7 @@ import com.sanmed.gorillabook.view.common.FeedUI;
 
 import java.util.List;
 
+import io.reactivex.internal.subscribers.BlockingBaseSubscriber;
 import retrofit2.Response;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -60,7 +61,8 @@ public class GorillaFeedRepository {
 
 
     private void saveData(FeedResponse[] feedResponses) {
-      mDataBaseDAO.saveFeed(FeedHelper.parseResponses(feedResponses)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(this::onSavedCompleted);
+
+      mDataBaseDAO.saveFeed(FeedHelper.parseResponses(feedResponses)).subscribeOn(io.reactivex.schedulers.Schedulers.io()).observeOn(io.reactivex.schedulers.Schedulers.io()).subscribe();
     }
 
     private void onSavedCompleted() {
@@ -78,7 +80,18 @@ public class GorillaFeedRepository {
     }
 
     public void loadFeedUIs() {
-        feedsUI.addSource(mDataBaseDAO.getAllFeed(),this::onFeedChanged);
+//        feedsUI.addSource(mDataBaseDAO.getAllFeed(),this::onFeedChanged);
+        mDataBaseDAO.getAllFeed().subscribeOn(io.reactivex.schedulers.Schedulers.io()).observeOn(io.reactivex.schedulers.Schedulers.io()).subscribe(new BlockingBaseSubscriber<List<Feed>>() {
+            @Override
+            public void onNext(List<Feed> feeds) {
+                onFeedChanged(feeds);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+            message.setValue(t.getMessage());
+            }
+        });
     }
 
     private void onFeedChanged(List<Feed> feeds) {

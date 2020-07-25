@@ -9,21 +9,22 @@ import androidx.room.Query;
 import androidx.room.Update;
 import java.util.List;
 
-import rx.Completable;
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
 
 
 @Dao
 public interface  FeedDataBaseDAO {
 
     @Insert
-    Completable insert(Feed feed);
+    void insert(Feed feed);
 
     @Update
-    Completable update(Feed feed);
+    void update(Feed feed);
 
 
     @Query("SELECT * FROM feed_table ORDER BY id DESC")
-    LiveData<List<Feed>> getAllFeed();
+    Flowable<List<Feed>> getAllFeed();
 
 
     @Query("SELECT * FROM feed_table ORDER BY id DESC LIMIT 1")
