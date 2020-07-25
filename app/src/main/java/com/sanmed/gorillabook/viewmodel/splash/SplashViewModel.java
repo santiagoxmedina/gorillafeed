@@ -13,15 +13,20 @@ public class SplashViewModel extends AndroidViewModel {
 
 
     private final GorillaFeedRepository gorillaBookRepository;
-
+    private  boolean isInitialized;
     public SplashViewModel(@NonNull Application application, FeedDataBaseDAO dataBaseDAO) {
         super(application);
         gorillaBookRepository = new GorillaFeedRepository(application,dataBaseDAO);
+        isInitialized = false;
     }
 
     public void init() {
-        gorillaBookRepository.init();
+        if(!isInitialized){
+            isInitialized = true;
+            gorillaBookRepository.updateFeed();
+        }
     }
+
 
     public LiveData<Boolean> getDataLoadedSuccess() {
         return gorillaBookRepository.getDataLoadedSuccess();

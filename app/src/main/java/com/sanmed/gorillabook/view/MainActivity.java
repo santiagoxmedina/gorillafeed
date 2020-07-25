@@ -1,4 +1,4 @@
-package com.sanmed.gorillabook.ui;
+package com.sanmed.gorillabook.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 

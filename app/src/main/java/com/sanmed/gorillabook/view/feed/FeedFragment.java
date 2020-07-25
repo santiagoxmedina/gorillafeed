@@ -1,4 +1,4 @@
-package com.sanmed.gorillabook.ui.feed;
+package com.sanmed.gorillabook.view.feed;
 
 import android.os.Bundle;
 
@@ -16,13 +16,18 @@ import com.sanmed.gorillabook.R;
 import com.sanmed.gorillabook.databinding.FragmentFeedBinding;
 import com.sanmed.gorillabook.model.database.FeedDataBase;
 import com.sanmed.gorillabook.model.database.FeedDataBaseDAO;
+import com.sanmed.gorillabook.view.common.FeedAdapter;
+import com.sanmed.gorillabook.view.common.FeedUI;
+import com.sanmed.gorillabook.view.common.FeedUIDiff;
 import com.sanmed.gorillabook.viewmodel.feed.FeedViewModel;
 import com.sanmed.gorillabook.viewmodel.feed.FeedViewModelFactory;
+
+import java.util.List;
 
 public class FeedFragment extends Fragment {
 
     private FeedViewModel mViewModel;
-
+    private FeedAdapter feedAdapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -32,13 +37,24 @@ public class FeedFragment extends Fragment {
         mViewModel = new ViewModelProvider(this,feedViewModelFactory).get(FeedViewModel.class);
         FragmentFeedBinding binding = DataBindingUtil.inflate(inflater,R.layout.fragment_feed, container, false);
         binding.setViewModel(mViewModel);
+        feedAdapter = new FeedAdapter(new FeedUIDiff());
         initSubscribers();
         return binding.getRoot();
     }
 
-    private void initSubscribers() {
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mViewModel.init();
 
     }
 
+    private void initSubscribers() {
+        mViewModel.getFeeds().observe(getViewLifecycleOwner(),this::onFeedsChanged);
+    }
+
+    private void onFeedsChanged(List<FeedUI> feedUIS) {
+        feedAdapter.submitList(feedUIS);
+    }
 
 }

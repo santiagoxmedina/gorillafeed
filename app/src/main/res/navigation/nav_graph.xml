@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.sanmed.gorillabook.ui.splash.SplashFragment"
+        android:name="com.sanmed.gorillabook.view.splash.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
@@ -16,6 +16,6 @@
     </fragment>
     <fragment
         android:id="@+id/feedFragment"
-        android:name="com.sanmed.gorillabook.ui.feed.FeedFragment"
+        android:name="com.sanmed.gorillabook.view.feed.FeedFragment"
         android:label="FeedFragment" />
 </navigation>

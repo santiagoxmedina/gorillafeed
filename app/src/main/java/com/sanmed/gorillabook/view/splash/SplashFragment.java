@@ -1,4 +1,4 @@
-package com.sanmed.gorillabook.ui.splash;
+package com.sanmed.gorillabook.view.splash;
 
 import android.os.Bundle;
 

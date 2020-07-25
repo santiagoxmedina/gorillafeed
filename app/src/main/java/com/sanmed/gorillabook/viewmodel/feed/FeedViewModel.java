@@ -6,20 +6,35 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.sanmed.gorillabook.model.GorillaFeedRepository;
 import com.sanmed.gorillabook.model.database.FeedDataBaseDAO;
+import com.sanmed.gorillabook.view.common.FeedUI;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class FeedViewModel extends AndroidViewModel {
 
     public MutableLiveData<String> dateStringLiveData;
+    public MutableLiveData<List<FeedUI>> feeds;
+    private final GorillaFeedRepository gorillaBookRepository;
+    private boolean initialized;
 
     public FeedViewModel(Application application, FeedDataBaseDAO dataBaseDAO) {
         super(application);
+        gorillaBookRepository = new GorillaFeedRepository(application,dataBaseDAO);
         dateStringLiveData = new MutableLiveData<>(getCurrentDate());
+        initialized = false;
+    }
+
+    public void init(){
+        if(!initialized){
+            initialized = true;
+            gorillaBookRepository.loadFeedUIs();
+        }
     }
 
     private String getCurrentDate() {
@@ -28,6 +43,9 @@ public class FeedViewModel extends AndroidViewModel {
         return df.format(c);
     }
 
+    public LiveData<List<FeedUI>> getFeeds() {
+        return gorillaBookRepository.getFeeds();
+    }
 
     public LiveData<String> getDate() {
         return dateStringLiveData;

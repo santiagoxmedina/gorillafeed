@@ -1,6 +1,10 @@
 package com.sanmed.gorillabook.model.models;
 
 import com.sanmed.gorillabook.model.database.Feed;
+import com.sanmed.gorillabook.view.common.FeedUI;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FeedHelper {
 
@@ -20,5 +24,20 @@ public class FeedHelper {
         feed.postBody = response.postBody;
         feed.unixTimestamp = Long.parseLong(response.unixTimestamp);
         return feed;
+    }
+
+    public static List<FeedUI> parseFeeds(List<Feed> feeds) {
+        if(feeds!=null){
+            List<FeedUI> result = new ArrayList<>();
+            for (Feed feed : feeds) {
+                result.add(parseFeed(feed));
+            }
+            return result;
+        }
+        return null;
+    }
+
+    public static FeedUI parseFeed(Feed feed) {
+        return null;
     }
 }
