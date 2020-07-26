@@ -57,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/normal_margin"
             android:text="@string/what_s_on_your_mind"
+            android:onClick="@{()->viewModel.onAddFeedClick()}"
             app:layout_constraintEnd_toStartOf="@+id/end_guideline"
             app:layout_constraintStart_toStartOf="@+id/start_guideline"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />

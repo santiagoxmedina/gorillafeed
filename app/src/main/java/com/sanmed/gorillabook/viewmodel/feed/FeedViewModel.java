@@ -23,11 +23,13 @@ public class FeedViewModel extends AndroidViewModel {
     public MutableLiveData<List<FeedUI>> feeds;
     private final GorillaFeedRepository gorillaBookRepository;
     private boolean initialized;
+    private final MutableLiveData<Boolean> gotToCreatePost;
 
     public FeedViewModel(Application application, FeedDataBaseDAO dataBaseDAO) {
         super(application);
         gorillaBookRepository = new GorillaFeedRepository(application,dataBaseDAO);
         dateStringLiveData = new MutableLiveData<>(getCurrentDate());
+        gotToCreatePost = new MutableLiveData<>(false);
         initialized = false;
     }
 
@@ -49,5 +51,17 @@ public class FeedViewModel extends AndroidViewModel {
 
     public LiveData<String> getDate() {
         return dateStringLiveData;
+    }
+
+    public void onAddFeedClick(){
+        gotToCreatePost.setValue(true);
+    }
+
+    public LiveData<Boolean> getGotToCreatePost() {
+        return gotToCreatePost;
+    }
+
+    public void onGotToCreatePostCompleted(){
+        gotToCreatePost.setValue(false);
     }
 }
